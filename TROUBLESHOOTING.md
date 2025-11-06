@@ -213,10 +213,121 @@ pip uninstall numpy pandas pyarrow -y
 pip install "numpy<2.0" "pandas<2.3" "pyarrow>=14.0"
 ```
 
+## Issue 3: R Package Dependencies (curl/tidyverse)
+
+**Error message:**
+```
+unable to load shared object '/path/to/curl.so':
+  undefined symbol: curl_url_strerror
+ERROR: dependency 'curl' is not available for package 'tidyverse'
+```
+
+**Cause:** The R `curl` package is being compiled against an incompatible version of the system's libcurl library. The function `curl_url_strerror` was added in libcurl 7.80.0, but your system has an older version.
+
+**Solution 1: Use the automated fix script**
+
+```bash
+# Run the fix script
+bash scripts/fix_r_dependencies.sh
+
+# Or run the R script directly
+Rscript scripts/fix_r_dependencies.R
+```
+
+**Solution 2: Install older compatible curl version**
+
+```bash
+# Install curl 4.3.2 which works with older libcurl
+R -e "install.packages('https://cran.r-project.org/src/contrib/Archive/curl/curl_4.3.2.tar.gz', repos=NULL, type='source')"
+
+# Then install tidyverse
+R -e "install.packages('tidyverse', repos='https://cran.rstudio.com/')"
+```
+
+**Solution 3: Use pre-compiled binary packages**
+
+```bash
+# Install binary packages (no compilation required)
+R -e "install.packages('tidyverse', type='binary', repos='https://cran.rstudio.com/')"
+```
+
+**Solution 4: Use Conda for R (Recommended)**
+
+```bash
+# Create conda environment with R and tidyverse
+conda create -n r-env r-base r-tidyverse r-here r-janitor r-skimr -y
+conda activate r-env
+
+# Verify
+R -e "library(tidyverse); packageVersion('tidyverse')"
+```
+
+**Solution 5: Update system libcurl (requires admin privileges)**
+
+```bash
+# On Red Hat/CentOS/Rocky Linux
+sudo yum update libcurl libcurl-devel
+
+# On Debian/Ubuntu
+sudo apt-get update && sudo apt-get install libcurl4-openssl-dev
+
+# Verify version
+curl --version
+```
+
+**HPC-specific notes:**
+
+If you're on an HPC cluster:
+
+```bash
+# Load appropriate modules
+module load curl
+module load R
+
+# Check available curl versions
+module spider curl
+
+# Try installing with module-provided curl
+module load curl/7.80.0  # or newer
+R -e "install.packages('curl', repos='https://cran.rstudio.com/', type='source')"
+```
+
+**Verifying the fix:**
+
+```bash
+R -e "
+library(curl)
+library(tidyverse)
+library(here)
+library(janitor)
+library(skimr)
+print('✓ All R packages loaded successfully!')
+"
+```
+
+**Manual troubleshooting:**
+
+1. Check your system's libcurl version:
+```bash
+curl --version | head -n 1
+pkg-config --modversion libcurl
+```
+
+2. Check if libcurl development files are installed:
+```bash
+pkg-config --exists libcurl && echo "libcurl dev files: OK" || echo "libcurl dev files: MISSING"
+```
+
+3. Try with explicit configure flags:
+```bash
+R -e "install.packages('curl', configure.args='--with-curl=/usr', repos='https://cran.rstudio.com/', type='source')"
+```
+
 ## Contact & Support
 
 If you continue to have issues, please open an issue on GitHub with:
 - Your Python version (`python --version`)
-- Your OS and environment (conda, venv, system Python)
+- Your R version (`R --version`) if applicable
+- Your OS and environment (conda, venv, system Python/R)
 - Full error traceback
-- Output of `pip list`
+- Output of `pip list` (Python) or `.libPaths()` and `installed.packages()` (R)
