@@ -3,7 +3,13 @@
 import os
 import random
 import numpy as np
-import torch
+
+# Optional PyTorch import
+try:
+    import torch
+    TORCH_AVAILABLE = True
+except (ImportError, OSError):
+    TORCH_AVAILABLE = False
 
 
 def set_seed(seed: int = 42) -> None:
@@ -19,24 +25,26 @@ def set_seed(seed: int = 42) -> None:
     # NumPy
     np.random.seed(seed)
 
-    # PyTorch
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
+    # PyTorch (if available)
+    if TORCH_AVAILABLE:
+        torch.manual_seed(seed)
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
 
-    # PyTorch deterministic operations
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
+        # PyTorch deterministic operations
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
 
     # Python hash seed
     os.environ["PYTHONHASHSEED"] = str(seed)
 
-    # Lightning
-    try:
-        from lightning import seed_everything
-        seed_everything(seed, workers=True)
-    except ImportError:
-        pass
+    # Lightning (if available)
+    if TORCH_AVAILABLE:
+        try:
+            from lightning import seed_everything
+            seed_everything(seed, workers=True)
+        except ImportError:
+            pass
 
 
 def get_seed() -> int:

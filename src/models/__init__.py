@@ -8,9 +8,6 @@ from .baselines import (
     CatBoostModel,
     get_baseline_models,
 )
-from .tabpfn_model import TabPFNModel
-from .tabpfn_finetuner import TabPFNFinetuner
-from .localpfn import LocalPFN
 
 __all__ = [
     "LogisticRegressionModel",
@@ -19,7 +16,23 @@ __all__ = [
     "LightGBMModel",
     "CatBoostModel",
     "get_baseline_models",
-    "TabPFNModel",
-    "TabPFNFinetuner",
-    "LocalPFN",
 ]
+
+# Optional TabPFN imports (require PyTorch)
+try:
+    from .tabpfn_model import TabPFNModel
+    __all__.append("TabPFNModel")
+except Exception:
+    TabPFNModel = None
+
+try:
+    from .tabpfn_finetuner import TabPFNFinetuner
+    __all__.append("TabPFNFinetuner")
+except Exception:
+    TabPFNFinetuner = None
+
+try:
+    from .localpfn import LocalPFN
+    __all__.append("LocalPFN")
+except Exception:
+    LocalPFN = None
