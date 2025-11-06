@@ -1,0 +1,18 @@
+{
+  "calibration_metrics": [
+    "brier_score",
+    "ece",
+    "mce",
+    "log_loss"
+  ],
+  "n_bins": 10,
+  "calibration_methods": [
+    "temperature_scaling",
+    "isotonic_regression",
+    "platt_scaling"
+  ],
+  "calibration_thresholds": {
+    "good_ece": 0.05,
+    "moderate_ece": 0.1
+  }
+}
