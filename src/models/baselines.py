@@ -235,13 +235,57 @@ class XGBoostModel(BaselineModel):
             "reg_lambda": trial.suggest_float("reg_lambda", 1e-8, 1.0, log=True),
         }
 
+    def fit(
+        self,
+        X: Union[np.ndarray, pd.DataFrame],
+        y: Union[np.ndarray, pd.Series],
+        tune: bool = True,
+        class_weight: Optional[str] = None,
+        scale: bool = False,
+    ) -> "XGBoostModel":
+        """
+        Fit XGBoost model.
+
+        Note: XGBoost doesn't use class_weight like sklearn.
+        For imbalanced data, we compute scale_pos_weight instead.
+        """
+        X_array = X.values if isinstance(X, pd.DataFrame) else X
+        y_array = y.values if isinstance(y, pd.Series) else y
+
+        # Scale features if requested
+        if scale:
+            self.scaler = StandardScaler()
+            X_array = self.scaler.fit_transform(X_array)
+
+        # Tune hyperparameters if requested
+        if tune:
+            params = self.tune_hyperparameters(X_array, y_array, None)  # Don't pass class_weight to tuning
+        else:
+            params = {}
+
+        # XGBoost uses scale_pos_weight for imbalanced data instead of class_weight
+        if class_weight == "balanced" and self.task_type == "classification":
+            neg_count = np.sum(y_array == 0)
+            pos_count = np.sum(y_array == 1)
+            if pos_count > 0:
+                params["scale_pos_weight"] = neg_count / pos_count
+                logger.info(f"Using scale_pos_weight={params['scale_pos_weight']:.3f}")
+
+        # Fit final model
+        self.model = self.create_model(params)
+        self.model.fit(X_array, y_array)
+
+        return self
+
     def create_model(self, params: Dict[str, Any]) -> BaseEstimator:
         common_params = {
             "random_state": self.random_state,
             "n_jobs": -1,
             "tree_method": "hist",
-            "early_stopping_rounds": 10,
         }
+
+        # Note: early_stopping_rounds removed - requires validation set
+        # Use n_estimators from param space instead
 
         if self.task_type == "classification":
             return XGBClassifier(**common_params, **params)
