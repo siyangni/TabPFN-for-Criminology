@@ -65,7 +65,6 @@ def log_versions(logger: Optional[logging.Logger] = None) -> dict:
     import numpy
     import pandas
     import sklearn
-    import torch
 
     versions = {
         "timestamp": datetime.now().isoformat(),
@@ -74,10 +73,18 @@ def log_versions(logger: Optional[logging.Logger] = None) -> dict:
         "numpy": numpy.__version__,
         "pandas": pandas.__version__,
         "scikit-learn": sklearn.__version__,
-        "torch": torch.__version__,
-        "cuda_available": torch.cuda.is_available(),
-        "cuda_version": torch.version.cuda if torch.cuda.is_available() else None,
     }
+
+    # Optional PyTorch
+    try:
+        import torch
+        versions["torch"] = torch.__version__
+        versions["cuda_available"] = torch.cuda.is_available()
+        versions["cuda_version"] = torch.version.cuda if torch.cuda.is_available() else None
+    except (ImportError, OSError):
+        versions["torch"] = "not installed"
+        versions["cuda_available"] = False
+        versions["cuda_version"] = None
 
     # Optional packages
     optional_packages = [
