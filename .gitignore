@@ -94,3 +94,6 @@ site/
 *.tmp
 *.bak
 *.orig
+
+# Model-specific temporary directories
+catboost_info/
