@@ -332,3 +332,7 @@ class COMPASLoader(BaseDataLoader):
         else:
             # Return tuple for modeling
             return self.prepare_for_modeling(df, include_compas_score)
+
+
+# Backward compatibility alias for notebooks
+COMPASDataLoader = COMPASLoader
