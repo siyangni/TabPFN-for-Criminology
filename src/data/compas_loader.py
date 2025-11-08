@@ -268,17 +268,19 @@ class COMPASLoader(BaseDataLoader):
         return X_encoded, y
 
     def load_and_prepare(
-        self, include_compas_score: bool = False, force_download: bool = False
-    ) -> Tuple[pd.DataFrame, pd.Series]:
+        self, include_compas_score: bool = False, force_download: bool = False, for_eda: bool = True
+    ):
         """
         Convenience method to load, preprocess, and prepare data.
 
         Args:
             include_compas_score: Whether to include COMPAS scores
             force_download: Whether to force re-download
+            for_eda: If True, return dict for EDA notebooks. If False, return tuple for modeling.
 
         Returns:
-            Tuple of (features, target)
+            If for_eda=True: Dict with keys 'data', 'metadata', 'sensitive_features'
+            If for_eda=False: Tuple of (features, target)
         """
         if force_download:
             self.download()
@@ -294,4 +296,39 @@ class COMPASLoader(BaseDataLoader):
             self.save_processed(df, f"compas_{self.task}")
             logger.info("Preprocessed and cached data")
 
-        return self.prepare_for_modeling(df, include_compas_score)
+        if for_eda:
+            # Return format for EDA notebooks
+            target_col = "two_year_recid" if self.task == "two_year" else "two_year_violent_recid"
+            sensitive_cols = ["race", "sex", "age_cat"]
+
+            # Extract components
+            X, y, sensitive = self.get_X_y_sensitive(df)
+
+            # Combine into single dataframe for EDA
+            df_full = pd.concat([X, sensitive], axis=1)
+            df_full[target_col] = y
+
+            # Get metadata as dict
+            metadata_obj = self.get_metadata()
+            metadata_dict = {
+                'name': metadata_obj.name,
+                'task_type': metadata_obj.task_type,
+                'n_samples': metadata_obj.n_samples,
+                'n_features': metadata_obj.n_features,
+                'n_classes': metadata_obj.n_classes,
+                'target': target_col,
+                'sensitive_features': metadata_obj.sensitive_features,
+                'feature_names': metadata_obj.feature_names,
+                'class_names': metadata_obj.class_names,
+                'source': metadata_obj.source,
+                'description': metadata_obj.description,
+            }
+
+            return {
+                'data': df_full,
+                'metadata': metadata_dict,
+                'sensitive_features': sensitive
+            }
+        else:
+            # Return tuple for modeling
+            return self.prepare_for_modeling(df, include_compas_score)
