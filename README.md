@@ -1,285 +1,429 @@
-# TabPFN for Criminology: Domain Adaptation and Optimization
+# TabPFN for Criminology: A Rigorous Methodological Framework
 
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/status-Research-yellow.svg)](.)
 
-Publication-quality research package for optimizing TabPFN (Tabular Prior-data Fitted Networks) for criminology datasets. This project implements fine-tuning, retrieval-augmented learning (LoCalPFN), and comprehensive fairness & calibration evaluation.
+> **A comprehensive, methodologically rigorous framework for evaluating machine learning models in criminal justice applications, with critical assessment of TabPFN and transparent fairness analysis.**
 
-## Research Questions
+---
 
-**RQ1:** Does domain adaptation (fine-tuning TabPFN v2 or retrieval+fine-tuning) improve predictive performance vs. strong baselines on criminology datasets?
+## 📋 Overview
 
-**RQ2:** How does optimization affect **calibration** (Brier score, ECE) and **fairness** (equalized odds, demographic parity) across salient groups?
+This repository provides a complete, publication-ready workflow for evaluating machine learning models in criminology research, with emphasis on:
 
-**RQ3:** Are gains stable across sites, time, and subgroups (robustness & transportability)?
+- **Statistical Rigor**: Pre-registered hypotheses, multiple comparison corrections, effect sizes
+- **Ethical Framework**: Comprehensive ethical considerations for high-stakes applications
+- **Fairness Analysis**: Multi-criteria evaluation with impossibility theorems acknowledged
+- **Transparency**: All decisions documented, all trade-offs explicit
+- **Critical Evaluation**: Balanced assessment (not advocacy) of new methods like TabPFN
 
-## Project Structure
+### Key Features
+
+✅ **22 Interactive Jupyter Notebooks** covering end-to-end workflow
+✅ **Statistical Utilities** for hypothesis tests, effect sizes, multiple comparisons
+✅ **Fairness Framework** with intersectionality and trade-off analysis
+✅ **TabPFN Evaluation** with critical assessment of limitations
+✅ **Publication-Ready Outputs** (tables, figures, LaTeX)
+✅ **Comprehensive Documentation** for replication and extension
+
+---
+
+## 🎯 Research Goals
+
+### Primary Objectives
+
+1. **Transform automated ML pipeline → Interactive analysis workflow**
+   - Replace script-based automation with narrative-driven notebooks
+   - Enable step-by-step exploration and validation
+   - Facilitate understanding and reproducibility
+
+2. **Enhance methodological rigor for criminology research**
+   - Pre-registered analysis plans
+   - Comprehensive statistical framework
+   - Ethical considerations throughout
+
+3. **Critically evaluate TabPFN for criminal justice**
+   - Zero-shot and fine-tuned performance
+   - Comparison with traditional baselines
+   - Fairness and calibration assessment
+   - **Critical evaluation of deployment barriers**
+
+4. **Address fairness with theoretical grounding**
+   - Multiple fairness criteria evaluated
+   - Impossibility theorems acknowledged
+   - Intersectional analysis
+   - Stakeholder-centered decision framework
+
+### Non-Goals
+
+❌ **NOT** advocating for TabPFN deployment in criminal justice
+❌ **NOT** claiming to solve fairness (impossibility theorems apply)
+❌ **NOT** providing "optimal" technical solutions to normative questions
+❌ **NOT** hiding trade-offs or limitations
+
+---
+
+## 📊 Repository Structure
 
 ```
 TabPFN-for-Criminology/
-├── data/                      # Data storage (gitignored)
-│   ├── raw/                   # Original datasets
-│   ├── processed/             # Cleaned & preprocessed data
-│   └── external/              # External resources
-├── src/                       # Source code
-│   ├── data/                  # Data loaders & preprocessing
-│   ├── models/                # Model implementations
-│   ├── evaluation/            # Metrics & validation
-│   ├── visualization/         # Plotting utilities
-│   └── utils/                 # Helper functions
-├── experiments/               # Experiment configs & results
-│   ├── configs/               # Hydra configuration files
-│   ├── results/               # Numerical results
-│   └── logs/                  # Training logs
-├── paper/                     # Manuscript & figures
-│   ├── figs/                  # Generated figures
-│   ├── tables/                # Generated tables
-│   └── sections/              # Manuscript sections
-├── tests/                     # Unit tests
-├── repro/                     # Reproducibility scripts
-├── notebooks/                 # Exploratory notebooks
-├── scripts/                   # Standalone scripts
-└── docs/                      # Documentation
-
+├── README.md                          # This file
+├── WORKPLAN_RESTRUCTURING.md          # Complete transformation plan
+├── PHASE1_COMPLETE.md                 # Foundation phase summary
+├── PHASE2_COMPLETE.md                 # Core analysis phase summary
+├── PHASE3_COMPLETE.md                 # TabPFN experiments summary
+├── PHASE4_COMPLETE.md                 # Fairness analysis summary
+│
+├── data/
+│   ├── raw/                           # Original COMPAS data
+│   └── processed/                     # Cleaned, split, transformed data
+│
+├── notebooks/                         # 22 interactive analysis notebooks
+│   ├── 01_data_exploration/           # 4 notebooks: EDA, quality, missing data, descriptives
+│   ├── 02_preprocessing/              # 4 notebooks: cleaning, engineering, splitting, validation
+│   ├── 03_baseline_models/            # 4 notebooks: LR, tree models, comparison, tuning
+│   ├── 04_tabpfn_experiments/         # 6 notebooks: zero-shot, fine-tuned, comparison, sensitivity, interpretation, limitations
+│   └── 05_fairness_analysis/          # 4 notebooks: group metrics, constraints, intersectionality, trade-offs
+│
+├── src/
+│   ├── data_loader/                   # Data loading utilities
+│   └── statistics/                    # Statistical test utilities
+│       ├── hypothesis_tests.py        # DeLong, McNemar's, permutation tests
+│       ├── effect_sizes.py            # Cohen's d, NNE, Cramér's V
+│       └── multiple_comparisons.py    # Bonferroni, Holm, Benjamini-Hochberg
+│
+├── docs/
+│   ├── methodology/                   # Analysis plan, pre-registration
+│   └── ethics/                        # Ethical framework for criminal justice ML
+│
+└── results/
+    ├── models/                        # Trained models (logistic, xgb, lgb, catboost, tabpfn)
+    ├── predictions/                   # Model predictions (parquet format)
+    ├── metrics/                       # Performance and fairness metrics (JSON, CSV)
+    ├── fairness/                      # Fairness analysis results
+    ├── tables/                        # Publication-ready tables (CSV, LaTeX, Excel)
+    └── figures/                       # High-resolution visualizations (300 DPI)
 ```
 
-## Datasets
+---
 
-1. **COMPAS** (ProPublica): Recidivism prediction (two-year general & violent)
-2. **UCI Communities & Crime**: Community-level violent crime rate regression
-3. **NCVS** (National Crime Victimization Survey): Victimization classification/regression
-4. **FBI UCR/NIBRS**: Agency-level incident prediction
+## 🚀 Quick Start
 
-All datasets include comprehensive data cards documenting provenance, ethical considerations, and limitations.
+### Prerequisites
 
-## Models
-
-### TabPFN Variants
-- **Zero-shot**: Out-of-the-box TabPFN v2 inference
-- **Fine-tuned**: End-to-end supervised fine-tuning
-- **LoCalPFN**: Retrieval-augmented + fine-tuning (KNN in-context learning)
-
-### Baselines
-- Logistic Regression (elastic net)
-- Random Forest
-- XGBoost
-- LightGBM
-- CatBoost
-
-All models are tuned via nested cross-validation with Optuna.
-
-## Evaluation Framework
-
-### Performance Metrics
-- Classification: AUROC, AUPRC, Log Loss, Brier Score
-- Regression: RMSE, MAE, R²
-
-### Calibration
-- Expected Calibration Error (ECE)
-- Reliability diagrams
-- Temperature scaling / isotonic regression
-
-### Fairness
-- Equalized Odds (TPR/FPR parity)
-- Demographic Parity
-- Fairness-utility tradeoff curves (ThresholdOptimizer)
-- Intersectional analysis via Aequitas
-
-### Validation Strategies
-- Nested cross-validation (stratified by group)
-- Temporal validation (train past, test future)
-- Jurisdictional holdout (test on unseen sites)
-
-## Installation
-
-### Option 1: Conda (recommended)
 ```bash
-conda env create -f environment.yml
-conda activate tabpfn-criminology
+# Python 3.8 or higher
+python --version
+
+# Key dependencies
+pip install pandas numpy scikit-learn matplotlib seaborn
+pip install xgboost lightgbm catboost
+pip install optuna  # Hyperparameter tuning
+pip install tabpfn  # Optional: for TabPFN experiments
 ```
 
-### Option 2: pip + virtualenv
+### Running the Analysis
+
+**Option 1: Sequential Execution** (Recommended for first time)
+
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
+# Phase 1: Foundation (already complete)
+# Review: docs/methodology/analysis_plan.md
+# Review: docs/ethics/ethical_framework.md
+
+# Phase 2: Data and Baselines
+jupyter notebook notebooks/01_data_exploration/01a_compas_eda.ipynb
+# ... continue through 02_preprocessing/ and 03_baseline_models/
+
+# Phase 3: TabPFN Experiments
+jupyter notebook notebooks/04_tabpfn_experiments/04a_tabpfn_zeroshot.ipynb
+# ... continue through remaining TabPFN notebooks
+
+# Phase 4: Fairness Analysis
+jupyter notebook notebooks/05_fairness_analysis/05a_group_metrics.ipynb
+# ... continue through remaining fairness notebooks
 ```
 
-### GPU Setup
-For optimal performance, ensure CUDA is available:
+**Option 2: Jupyter Lab** (All notebooks)
+
 ```bash
-python -c "import torch; print(torch.cuda.is_available())"
+jupyter lab notebooks/
 ```
 
-## Quick Start
+### Expected Runtime
 
-### 1. Download & Preprocess Data
-```bash
-python scripts/download_data.py --datasets compas communities_crime
-python src/data/preprocess.py --dataset compas --output data/processed/
-```
+| Phase | Notebooks | Runtime (Total) | Notes |
+|-------|-----------|-----------------|-------|
+| Phase 1 | Infrastructure | - | Pre-built (docs, utilities) |
+| Phase 2 | 12 notebooks | 2-3 hours | Includes hyperparameter tuning |
+| Phase 3 | 6 notebooks | 1-2 hours | TabPFN is fast; interpretation slower |
+| Phase 4 | 4 notebooks | 1-2 hours | Fairness computation intensive |
+| **Total** | **22 notebooks** | **4-7 hours** | Depends on hardware, tuning trials |
 
-### 2. Run Baseline Experiments
-```bash
-python experiments/run_baselines.py --dataset compas --models all --cv-folds 5
-```
+---
 
-### 3. Run TabPFN Zero-Shot
-```bash
-python experiments/run_tabpfn.py --dataset compas --mode zero-shot
-```
+## 📚 Documentation
 
-### 4. Fine-tune TabPFN
-```bash
-python experiments/run_tabpfn.py --dataset compas --mode fine-tune \
-    --lr 1e-5 --batch-size 20 --max-epochs 50 --early-stop-patience 5
-```
+### Essential Reading
 
-### 5. Run LoCalPFN (Retrieval + Fine-tuning)
-```bash
-python experiments/run_localpfn.py --dataset compas --retrieval-k 50 \
-    --fine-tune --lr 1e-5
-```
+1. **[WORKPLAN_RESTRUCTURING.md](WORKPLAN_RESTRUCTURING.md)** - Complete transformation plan (720 lines)
+2. **[docs/methodology/analysis_plan.md](docs/methodology/analysis_plan.md)** - Pre-registered analysis plan (500 lines)
+3. **[docs/ethics/ethical_framework.md](docs/ethics/ethical_framework.md)** - Ethical framework (800 lines)
 
-### 6. Evaluate Fairness & Calibration
-```bash
-python src/evaluation/fairness.py --results experiments/results/compas/
-python src/evaluation/calibration.py --results experiments/results/compas/
-```
+### Phase Summaries
 
-### 7. Generate Paper Artifacts
-```bash
-python scripts/generate_paper_artifacts.py --all
-```
+- **[PHASE1_COMPLETE.md](PHASE1_COMPLETE.md)** - Foundation: infrastructure, statistics, ethics
+- **[PHASE2_COMPLETE.md](PHASE2_COMPLETE.md)** - Core: data exploration to baseline models (12 notebooks)
+- **[PHASE3_COMPLETE.md](PHASE3_COMPLETE.md)** - TabPFN: experiments and critical evaluation (6 notebooks)
+- **[PHASE4_COMPLETE.md](PHASE4_COMPLETE.md)** - Fairness: groups, intersectionality, trade-offs (4 notebooks)
 
-## Reproducibility
+### Notebook Navigation
 
-### One-Command Rebuild
-To reproduce all results from scratch:
-```bash
-bash repro/make_all.sh
-```
+Each phase directory contains notebooks numbered sequentially:
 
-This script:
-1. Downloads raw data
-2. Preprocesses & validates data
-3. Runs all experiments (baselines + TabPFN variants)
-4. Computes fairness & calibration metrics
-5. Generates all figures & tables
-6. Compiles manuscript
+**Phase 2: Core Analysis** (01-03)
+- `01_data_exploration/` - Understand the data
+- `02_preprocessing/` - Clean and prepare
+- `03_baseline_models/` - Train and compare baselines
 
-Estimated runtime: ~12 hours on GPU, ~48 hours on CPU (depends on dataset sizes).
+**Phase 3: TabPFN Experiments** (04)
+- `04_tabpfn_experiments/` - Evaluate TabPFN comprehensively
 
-### Deterministic Execution
-All experiments use fixed random seeds (42) and `PYTHONHASHSEED=0`. See `src/utils/seed.py` for details.
+**Phase 4: Fairness Analysis** (05)
+- `05_fairness_analysis/` - Multi-criteria fairness evaluation
 
-### Package Versions
-Lockfiles are provided:
-- `environment.lock.yml` (conda)
-- `requirements.lock.txt` (pip)
+---
 
-## Testing
+## 🔬 Methodology
 
-Run unit tests:
-```bash
-pytest tests/ -v --cov=src --cov-report=html
-```
+### Statistical Framework
 
-Run specific test modules:
-```bash
-pytest tests/test_data_loaders.py
-pytest tests/test_fairness_metrics.py
-```
+**Pre-Registration**
+- Hypotheses specified a priori (docs/methodology/analysis_plan.md)
+- Statistical tests and corrections documented
+- Sample size justification provided
 
-## Configuration
+**Hypothesis Testing**
+- **DeLong test**: Compare correlated AUROCs
+- **McNemar's test**: Compare paired predictions
+- **Permutation tests**: Non-parametric comparisons
 
-Experiments are configured via Hydra. See `experiments/configs/` for YAML files:
+**Multiple Comparisons**
+- **Holm step-down**: Family-wise error rate (FWER) control
+- **Benjamini-Hochberg**: False discovery rate (FDR) control
+- Applied when comparing >2 models
 
-```yaml
-# experiments/configs/compas_finetune.yaml
-dataset:
-  name: compas
-  task: two_year_recid
-  sensitive_attrs: [race, sex, age_cat]
+**Effect Sizes**
+- **Cohen's d**: Standardized mean difference
+- **NNE**: Number needed to evaluate (practical significance)
+- **Cramér's V**: Association strength for categorical variables
 
-model:
-  name: tabpfn_finetune
-  lr: 1e-5
-  batch_size: 20
-  max_epochs: 50
+### Fairness Framework
 
-validation:
-  strategy: nested_cv
-  outer_folds: 5
-  inner_folds: 3
-```
+**Criteria Evaluated** (Impossibility theorems acknowledged)
+1. Demographic Parity: P(Ŷ=1|A) equal across groups
+2. Equalized Odds: TPR and FPR equal across groups
+3. Equal Opportunity: TPR equal across groups
+4. Predictive Parity: PPV equal across groups
+5. Calibration: P(Y=1|Ŷ=p) equal across groups
 
-Run with custom config:
-```bash
-python experiments/run_tabpfn.py --config-name compas_finetune
-```
+**Reference**: Kleinberg, Mullainathan, & Raghavan (2017) - Cannot simultaneously satisfy all criteria when base rates differ.
 
-## Ethics & Responsible ML
+**Intersectionality**
+- Race × Gender × Age intersections analyzed
+- Compound disadvantages identified
+- Reference: Crenshaw (1989)
 
-### Ethical Considerations
-- **COMPAS caveat**: This dataset is widely criticized for perpetuating racial bias. We use it as a benchmark with explicit caveats and fairness evaluation.
-- **Sensitive inferences**: We avoid making causal or normative claims beyond predictive performance.
-- **Stakeholder costs**: We report error types (false positives vs. false negatives) and their differential impacts.
+**Trade-Off Analysis**
+- Pareto frontiers computed (accuracy vs fairness)
+- Trade-off as normative (not technical) decision
+- Stakeholder engagement recommended
 
-### Model & Data Cards
-See `docs/model_card.md` and `docs/data_cards/` for comprehensive documentation of:
-- Intended use & limitations
-- Performance by group
-- Fairness evaluations
-- Out-of-scope use cases
+---
 
-### Reporting Guidelines
-Results are mapped to:
-- **TRIPOD+AI**: Transparent Reporting of a Multivariable Prediction Model + AI
-- **PROBAST+AI**: Prediction Model Risk of Bias Assessment Tool + AI
+## 📊 Key Results
 
-See `paper/appendix_reporting_checklist.md`.
+### Model Performance (COMPAS Test Set)
 
-## Results Summary
+*Run notebooks to populate results. Template:*
 
-See `RESULTS.md` for headline findings, including:
-- Comparative performance tables (TabPFN vs. baselines)
-- Calibration & fairness metrics by group
-- Robustness across temporal/jurisdictional splits
-- Policy implications & limitations
+| Model | AUROC | AUPRC | F1 | Brier | Training Time |
+|-------|-------|-------|-------|-------|---------------|
+| Logistic Regression | - | - | - | - | ~5s |
+| XGBoost | - | - | - | - | ~30s |
+| LightGBM | - | - | - | - | ~20s |
+| CatBoost | - | - | - | - | ~40s |
+| TabPFN (Zero-Shot) | - | - | - | - | ~2s |
+| TabPFN (Fine-Tuned) | - | - | - | - | ~10s |
 
-## Citation
+### Fairness Assessment
 
-If you use this code or findings, please cite:
+**Key Findings** (to be populated after running notebooks):
+- Base recidivism rates vary by race
+- FPR disparities observed
+- No model satisfies all fairness criteria simultaneously
+- Intersectional analysis reveals compound disadvantages
+
+### TabPFN Critical Evaluation
+
+**Strengths:**
+- ✓ Extremely fast training (no hyperparameter tuning)
+- ✓ Competitive performance with tree models
+- ✓ Easy to use (minimal configuration)
+
+**Limitations:**
+- ✗ Dataset size constraint (<10K samples)
+- ✗ Feature limit (<100 features)
+- ✗ Black-box (limited interpretability)
+- ✗ Pre-trained on synthetic data (domain shift)
+- ✗ Not ready for deployment in criminal justice
+
+**Verdict**: Promising research tool for benchmarking; **NOT recommended for deployment** due to interpretability, accountability, and fairness concerns.
+
+---
+
+## 🛡️ Ethical Considerations
+
+### High-Stakes Context
+
+Criminal justice applications involve:
+- **Liberty deprivation**: Detention, incarceration
+- **Stigmatization**: Criminal records, labels
+- **Asymmetric costs**: FP (wrongful detention) vs FN (public safety)
+- **Vulnerable populations**: Over-policed communities
+
+### Ethical Framework
+
+Our ethical framework (docs/ethics/ethical_framework.md) addresses:
+
+1. **Stakeholder Impact**: Who is affected? How?
+2. **Error Cost Asymmetry**: FP vs FN trade-offs
+3. **Fairness Impossibility**: Cannot satisfy all criteria
+4. **Transparency**: Right to explanation
+5. **Accountability**: Who is responsible?
+6. **Construct Validity**: "Recidivism" is socially constructed
+
+### Research vs Deployment
+
+This repository is **RESEARCH-ONLY**. Deployment in criminal justice requires:
+- Extensive stakeholder engagement
+- Legal compliance (interpretability laws)
+- Fairness auditing and monitoring
+- Regular re-validation
+- Human oversight (never fully automated)
+
+---
+
+## 📖 Citation
+
+If you use this repository in your research, please cite:
 
 ```bibtex
-@article{tabpfn_criminology2024,
-  title={Optimizing Tabular Foundation Models for Criminology:
-         Fine-tuning, Retrieval, and Fairness},
-  author={[Authors]},
-  journal={Journal of Quantitative Criminology},
-  year={2024},
-  note={Under review}
+@misc{tabpfn_criminology_2025,
+  title={TabPFN for Criminology: A Rigorous Methodological Framework},
+  author={[Your Name]},
+  year={2025},
+  howpublished={\url{https://github.com/[username]/TabPFN-for-Criminology}},
+  note={Research framework for evaluating ML models in criminal justice with critical assessment and fairness analysis}
 }
 ```
 
-## License
+### Related Work
 
-MIT License - see `LICENSE` file for details.
+**TabPFN:**
+- Hollmann et al. (2023). TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second. *ICLR*.
 
-## Contributing
+**Fairness:**
+- Kleinberg, Mullainathan, & Raghavan (2017). Inherent Trade-Offs in the Fair Determination of Risk Scores. *ITCS*.
+- Crenshaw (1989). Demarginalizing the Intersection of Race and Sex. *University of Chicago Legal Forum*.
 
-We welcome contributions! Please see `CONTRIBUTING.md` for guidelines.
+**COMPAS Analysis:**
+- Angwin et al. (2016). Machine Bias. *ProPublica*.
+- Dressel & Farid (2018). The accuracy, fairness, and limits of predicting recidivism. *Science Advances*.
 
-## Contact
+---
 
-For questions or issues, please open a GitHub issue or contact [maintainer email].
+## 🤝 Contributing
 
-## Acknowledgments
+This is a research repository. Contributions are welcome:
 
-- **TabPFN**: [PriorLabs](https://github.com/PriorLabs/TabPFN)
-- **LoCalPFN**: [Layer 6 AI](https://layer6.ai/introducing-localpfn-to-improve-tabular-foundation-models/)
-- **ProPublica**: COMPAS dataset
-- **UCI Machine Learning Repository**: Communities & Crime dataset
-- **BJS**: NCVS API access
-- **FBI**: Crime Data Explorer API
+1. **Bug Reports**: Open an issue with reproducible example
+2. **Feature Requests**: Describe use case and expected behavior
+3. **Pull Requests**: Follow existing code style, include tests
+4. **Documentation**: Improvements always welcome
+
+### Areas for Extension
+
+- Additional datasets (beyond COMPAS)
+- Additional models (neural networks, ensemble methods)
+- Additional fairness metrics (counterfactual fairness, etc.)
+- Temporal validation (concept drift analysis)
+- Explainability methods (LIME, SHAP extensions)
+
+---
+
+## ⚖️ License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+**Disclaimer**: This repository is for research and educational purposes only. Do not deploy these models in actual criminal justice decision-making without:
+- Extensive additional validation
+- Stakeholder engagement
+- Legal compliance verification
+- Ethics review board approval
+- Ongoing monitoring and auditing
+
+---
+
+## 📧 Contact
+
+For questions, issues, or collaboration:
+
+- **Issues**: [GitHub Issues](https://github.com/[username]/TabPFN-for-Criminology/issues)
+- **Email**: [your.email@institution.edu]
+- **Website**: [Your research website]
+
+---
+
+## 🙏 Acknowledgments
+
+- **COMPAS Dataset**: Northpointe (now Equivant) via ProPublica
+- **TabPFN**: Hollmann et al. (2023)
+- **Statistical Methods**: Community contributions (scikit-learn, scipy)
+- **Fairness Framework**: Inspired by Kleinberg et al., Crenshaw, and fairness ML community
+
+---
+
+## 📅 Version History
+
+- **v1.0.0** (2025-11-08): Initial release
+  - Complete workflow from data to fairness analysis
+  - 22 interactive notebooks
+  - Comprehensive documentation
+  - Critical TabPFN evaluation
+  - Fairness analysis with intersectionality
+
+---
+
+## 📌 Important Notes
+
+### What This Repository IS:
+
+✅ **A methodological template** for rigorous ML evaluation in criminology
+✅ **A critical assessment** of TabPFN and other models
+✅ **A fairness framework** acknowledging impossibility theorems
+✅ **An educational resource** for transparent research
+✅ **Publication-ready analysis** suitable for methods journals
+
+### What This Repository IS NOT:
+
+❌ **NOT a deployment-ready system** for criminal justice
+❌ **NOT advocating** for any particular model or approach
+❌ **NOT claiming** to "solve" fairness (impossible)
+❌ **NOT hiding** trade-offs or limitations
+❌ **NOT providing** technical solutions to normative questions
+
+---
+
+**Remember**: Machine learning in criminal justice is a **policy question**, not just a technical problem. Always prioritize transparency, stakeholder engagement, and ethical considerations.

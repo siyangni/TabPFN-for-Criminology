@@ -27,22 +27,64 @@ ENV/
 .venv
 
 # Jupyter
-.ipynb_checkpoints
-*.ipynb
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+# Note: We now track notebooks as they are core to the workflow
 
 # Data (large files, privacy-sensitive)
+# Ignore all data files but keep structure and documentation
 data/raw/**
 data/processed/**
+data/interim/**
 data/external/**
+
+# Keep data structure and documentation
 !data/README.md
+!data/raw/README.md
+!data/processed/README.md
+!data/interim/README.md
+!data/metadata/
 !data/.gitkeep
+!data/*/.gitkeep
+
+# Keep metadata and documentation
+data/metadata/**/*.md
+data/metadata/**/*.json
+!data/metadata/**/*.parquet
+!data/metadata/**/*.csv
 
 # Experiments (results, logs can be large)
 experiments/results/**
 experiments/logs/**
+experiments/predictions/**
 *.log
 !experiments/results/.gitkeep
 !experiments/logs/.gitkeep
+
+# Results directory (new structure)
+# Ignore all result files but keep structure and small summaries
+results/models/**
+results/predictions/**
+results/figures/**/*.png
+results/figures/**/*.jpg
+results/figures/**/*.pdf
+results/tables/**/*.xlsx
+results/tables/**/*.parquet
+
+# Keep results structure and documentation
+!results/README.md
+!results/**/README.md
+!results/.gitkeep
+!results/**/.gitkeep
+
+# Keep small summary files and metadata
+!results/metrics/
+results/metrics/**/*.parquet
+!results/metrics/**/*.json
+!results/metrics/**/*.csv
+!results/tables/**/*.csv
+!results/tables/**/*.tex
+!results/tables/**/*.md
 
 # Models (checkpoints)
 *.ckpt
