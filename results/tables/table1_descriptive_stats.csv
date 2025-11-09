@@ -1,0 +1,19 @@
+Variable,Overall,No_Recidivism,Recidivism
+N,6172,3363,2809
+race_Other,343,219,124
+race_African-American,3175,1514,1661
+race_Caucasian,2103,1281,822
+race_Hispanic,509,320,189
+race_Asian,31,23,8
+race_Native American,11,6,5
+sex_Male,4997,2601,2396
+sex_Female,1175,762,413
+age_cat_Greater than 45,1293,879,414
+age_cat_25 - 45,3532,1891,1641
+age_cat_Less than 25,1347,593,754
+age_mean,34.53 ± 11.73,36.56 ± 12.27,32.11 ± 10.56
+juv_fel_count_mean,0.06 ± 0.46,0.02 ± 0.21,0.10 ± 0.65
+juv_misd_count_mean,0.09 ± 0.50,0.04 ± 0.30,0.15 ± 0.66
+juv_other_count_mean,0.11 ± 0.47,0.06 ± 0.33,0.18 ± 0.59
+priors_count_mean,3.25 ± 4.74,1.99 ± 3.34,4.75 ± 5.65
+decile_score_mean,4.42 ± 2.84,3.47 ± 2.48,5.55 ± 2.82
