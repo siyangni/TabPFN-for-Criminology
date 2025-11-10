@@ -1,0 +1,2 @@
+stage,description,n_samples,n_removed,cumulative_removed,remaining_pct
+0_raw_data,Raw ProPublica COMPAS data,6172,0,0,100.0
