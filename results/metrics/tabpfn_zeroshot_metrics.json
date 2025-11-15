@@ -1,0 +1,34 @@
+{
+  "model": "TabPFN (Zero-Shot)",
+  "mode": "zero-shot",
+  "train": {
+    "auroc": 0.738635095952169,
+    "auprc": 0.7385759115161714,
+    "log_loss": 0.5979174575322745,
+    "brier_score": 0.20608429732729983,
+    "accuracy": 0.681785457163427,
+    "precision": 0.6977133296151701,
+    "recall": 0.6147420147420147,
+    "f1": 0.6536050156739812
+  },
+  "test": {
+    "auroc": 0.7158612148309785,
+    "auprc": 0.7074200010619818,
+    "log_loss": 0.6203923126670602,
+    "brier_score": 0.21485410228143298,
+    "accuracy": 0.654510556621881,
+    "precision": 0.6704805491990846,
+    "recall": 0.5756385068762279,
+    "f1": 0.6194503171247357
+  },
+  "efficiency": {
+    "fit_time_seconds": 1.2018401622772217,
+    "inference_time_seconds": 28193.825880765915,
+    "samples_per_second": 0.03695844630688671
+  },
+  "configuration": {
+    "N_ensemble_configurations": 32,
+    "device": "cpu",
+    "random_state": 42
+  }
+}

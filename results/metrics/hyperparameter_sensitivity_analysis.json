@@ -1,0 +1,41 @@
+{
+  "logistic_regression": {
+    "most_important": "C (inverse regularization strength)",
+    "recommendation": "ElasticNet with balanced L1/L2 works well for sparse features",
+    "insights": [
+      "C parameter critical for bias-variance tradeoff",
+      "l1_ratio determines feature selection strength",
+      "Balanced class weights essential for imbalanced data"
+    ]
+  },
+  "xgboost": {
+    "most_important": "learning_rate, max_depth, n_estimators",
+    "recommendation": "Lower learning rate with more estimators for better generalization",
+    "insights": [
+      "max_depth controls model complexity (overfitting risk)",
+      "subsample and colsample_bytree provide regularization",
+      "scale_pos_weight crucial for imbalanced classes",
+      "Regularization (alpha, lambda) prevents overfitting"
+    ]
+  },
+  "lightgbm": {
+    "most_important": "num_leaves, learning_rate, min_child_samples",
+    "recommendation": "Leaf-wise growth is powerful but can overfit; control with min_child_samples",
+    "insights": [
+      "num_leaves is LightGBM-specific (replaces max_depth)",
+      "min_child_samples prevents overfitting on small groups",
+      "Faster training than XGBoost on large datasets",
+      "Feature bundling reduces memory usage"
+    ]
+  },
+  "catboost": {
+    "most_important": "learning_rate, depth, l2_leaf_reg",
+    "recommendation": "Strong default performance; less tuning needed than XGBoost",
+    "insights": [
+      "Ordered boosting reduces overfitting",
+      "l2_leaf_reg is primary regularization parameter",
+      "bagging_temperature controls randomness",
+      "Generally robust to hyperparameter choices"
+    ]
+  }
+}

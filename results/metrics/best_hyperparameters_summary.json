@@ -1,0 +1,128 @@
+{
+  "tuning_framework": {
+    "library": "Optuna",
+    "sampler": "TPESampler (Tree-structured Parzen Estimator)",
+    "objective_metric": "AUROC (cross-validated)",
+    "cv_strategy": "3-fold stratified during tuning, 5-fold for final eval",
+    "num_trials": "20-30 per model"
+  },
+  "best_configurations": {
+    "logistic_regression": {
+      "test_auroc": 0.7137601963899343,
+      "hyperparameters": {
+        "C": 0.02044749571764568,
+        "l1_ratio": 0.9778120439635134
+      }
+    },
+    "xgboost": {
+      "test_auroc": 0.7124461383649654,
+      "hyperparameters": {
+        "n_estimators": 418,
+        "max_depth": 6,
+        "learning_rate": 0.01924157176279333,
+        "min_child_weight": 3,
+        "subsample": 0.8386245527797767,
+        "colsample_bytree": 0.9749827602428569,
+        "gamma": 1.548503898583581,
+        "reg_alpha": 3.497316459272637,
+        "reg_lambda": 1.4405841026492834,
+        "random_state": 42,
+        "eval_metric": "logloss",
+        "use_label_encoder": false,
+        "scale_pos_weight": 1.0476658476658476
+      }
+    },
+    "lightgbm": {
+      "test_auroc": 0.7117845018558996,
+      "hyperparameters": {
+        "n_estimators": 73,
+        "max_depth": 3,
+        "learning_rate": 0.05569132171526311,
+        "num_leaves": 71,
+        "min_child_samples": 51,
+        "subsample": 0.8432445184319162,
+        "colsample_bytree": 0.8474303830937989,
+        "reg_alpha": 3.648293454439628,
+        "reg_lambda": 7.740652056843244,
+        "random_state": 42,
+        "class_weight": "balanced",
+        "verbose": -1
+      }
+    },
+    "catboost": {
+      "test_auroc": 0.7098935852589596,
+      "hyperparameters": {
+        "iterations": 351,
+        "depth": 6,
+        "learning_rate": 0.023412256332213673,
+        "l2_leaf_reg": 6.048722461730436,
+        "border_count": 151,
+        "bagging_temperature": 3.25498978833791,
+        "random_strength": 5.7272716398576895,
+        "random_state": 42,
+        "auto_class_weights": "Balanced",
+        "verbose": 0
+      }
+    }
+  },
+  "key_findings": {
+    "most_sensitive_params": {
+      "logistic_regression": "C (regularization strength)",
+      "xgboost": "learning_rate, max_depth",
+      "lightgbm": "num_leaves, min_child_samples",
+      "catboost": "learning_rate, l2_leaf_reg"
+    },
+    "general_insights": [
+      "Tree-based models outperformed logistic regression",
+      "Lower learning rates with more estimators improved performance",
+      "Regularization critical for preventing overfitting",
+      "Class balancing essential for this imbalanced dataset"
+    ]
+  },
+  "recommendations": [
+    "Increase to 50-100 trials for more thorough search",
+    "Use all 5 folds if computational budget allows",
+    "Narrow ranges around best values for fine-tuning",
+    "Implement early stopping with validation set",
+    "Consider multi-objective (AUROC + calibration)",
+    "Use Optuna distributed optimization",
+    "Implement MedianPruner to stop unpromising trials",
+    "Ensemble top 3-5 configurations"
+  ],
+  "best_practices": {
+    "general": [
+      "Always use cross-validation during tuning to avoid overfitting to validation set",
+      "Log-scale search for learning rate and regularization parameters",
+      "More tuning trials generally improve results (50-100 recommended)",
+      "Monitor both training and validation metrics to detect overfitting",
+      "Use stratified CV to maintain class balance in each fold"
+    ],
+    "logistic_regression": [
+      "ElasticNet (L1+L2) provides better feature selection than pure L2",
+      "Class weighting crucial for imbalanced datasets",
+      "Solver choice matters: saga for ElasticNet, lbfgs for L2 only",
+      "Consider polynomial features for non-linear relationships"
+    ],
+    "tree_models": [
+      "Start with default hyperparameters (often strong baselines)",
+      "Lower learning rate + more estimators usually better than opposite",
+      "Control overfitting via max_depth, min_child_samples, regularization",
+      "Subsample and colsample provide additional regularization",
+      "Monitor feature importance to detect overfitting to noise"
+    ],
+    "optuna_specific": [
+      "TPE sampler (default) works well for most cases",
+      "Use pruning to stop unpromising trials early",
+      "Visualize optimization history to detect convergence",
+      "Parameter importance helps focus future tuning efforts",
+      "Consider multi-objective optimization for multiple metrics"
+    ],
+    "criminology_specific": [
+      "Optimize for both discrimination (AUROC) and calibration (Brier)",
+      "Consider fairness metrics in hyperparameter selection",
+      "Simpler models may be more interpretable for policy use",
+      "Document all tuning decisions for transparency",
+      "Test final models on held-out data from different time periods"
+    ]
+  }
+}

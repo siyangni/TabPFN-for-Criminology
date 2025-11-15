@@ -1,0 +1,9 @@
+aspect,current,recommendation,rationale
+Number of Trials,20-30 trials per model,Increase to 50-100 trials for more thorough search,"More trials explore parameter space better, especially for complex models"
+CV Folds for Tuning,3-fold CV during tuning,Use all 5 folds if computational budget allows,More stable validation estimates reduce tuning noise
+Search Space,Wide ranges for all parameters,Narrow ranges around best values for fine-tuning,Second-stage fine-tuning can find local optima
+Early Stopping,Fixed iterations/estimators,Implement early stopping with validation set,Reduces overfitting and speeds up training
+Objective Function,AUROC only,Consider multi-objective (AUROC + calibration),Criminal justice applications need well-calibrated probabilities
+Parallel Tuning,Sequential trials,Use Optuna distributed optimization,Parallelize trials across multiple workers for speed
+Pruning,No pruning,Implement MedianPruner to stop unpromising trials,Saves computation on clearly suboptimal configurations
+Ensemble Best Trials,Single best configuration,Ensemble top 3-5 configurations,Often improves performance and robustness

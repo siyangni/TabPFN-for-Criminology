@@ -1,0 +1,305 @@
+{
+  "test_set_size": 1042,
+  "alpha": 0.05,
+  "num_comparisons": {
+    "delong": 6,
+    "mcnemar": 6,
+    "total": 12
+  },
+  "performance_summary": [
+    {
+      "model": "Logistic Regression",
+      "auroc": 0.7137601963899343,
+      "auprc": 0.7046870947872509,
+      "accuracy": 0.6737044145873321,
+      "f1": 0.6606786427145709,
+      "brier_score": 0.21577878740263504
+    },
+    {
+      "model": "Xgboost",
+      "auroc": 0.7124461383649654,
+      "auprc": 0.7066743113629559,
+      "accuracy": 0.6506717850287908,
+      "f1": 0.6160337552742616,
+      "brier_score": 0.2156669886886507
+    },
+    {
+      "model": "Lightgbm",
+      "auroc": 0.7117845018558996,
+      "auprc": 0.7082288102707193,
+      "accuracy": 0.654510556621881,
+      "f1": 0.6273291925465838,
+      "brier_score": 0.2156317026262391
+    },
+    {
+      "model": "Catboost",
+      "auroc": 0.7098935852589596,
+      "auprc": 0.6969692290273579,
+      "accuracy": 0.6554702495201535,
+      "f1": 0.6302780638516993,
+      "brier_score": 0.21682917533063611
+    }
+  ],
+  "delong_tests": [
+    {
+      "model1": "Logistic Regression",
+      "model2": "Xgboost",
+      "auroc1": 0.7137601963899343,
+      "auroc2": 0.7124461383649654,
+      "difference": 0.0013140580249688671,
+      "z_statistic": 0.2918741803818302,
+      "p_value": 0.7703828254071876,
+      "p_holm": 1.0,
+      "sig_holm": false,
+      "p_bh": 0.7703828254071876,
+      "sig_bh": false
+    },
+    {
+      "model1": "Logistic Regression",
+      "model2": "Lightgbm",
+      "auroc1": 0.7137601963899343,
+      "auroc2": 0.7117845018558996,
+      "difference": 0.0019756945340346777,
+      "z_statistic": 0.47249540470052254,
+      "p_value": 0.6365732209890278,
+      "p_holm": 1.0,
+      "sig_holm": false,
+      "p_bh": 0.7703828254071876,
+      "sig_bh": false
+    },
+    {
+      "model1": "Logistic Regression",
+      "model2": "Catboost",
+      "auroc1": 0.7137601963899343,
+      "auroc2": 0.7098935852589596,
+      "difference": 0.00386661113097464,
+      "z_statistic": 0.9943959804194663,
+      "p_value": 0.3200301242785206,
+      "p_holm": 1.0,
+      "sig_holm": false,
+      "p_bh": 0.7703828254071876,
+      "sig_bh": false
+    },
+    {
+      "model1": "Xgboost",
+      "model2": "Lightgbm",
+      "auroc1": 0.7124461383649654,
+      "auroc2": 0.7117845018558996,
+      "difference": 0.0006616365090658105,
+      "z_statistic": 0.39761257373797415,
+      "p_value": 0.6909157906110674,
+      "p_holm": 1.0,
+      "sig_holm": false,
+      "p_bh": 0.7703828254071876,
+      "sig_bh": false
+    },
+    {
+      "model1": "Xgboost",
+      "model2": "Catboost",
+      "auroc1": 0.7124461383649654,
+      "auroc2": 0.7098935852589596,
+      "difference": 0.0025525531060057727,
+      "z_statistic": 0.7532263262684991,
+      "p_value": 0.4513139219536031,
+      "p_holm": 1.0,
+      "sig_holm": false,
+      "p_bh": 0.7703828254071876,
+      "sig_bh": false
+    },
+    {
+      "model1": "Lightgbm",
+      "model2": "Catboost",
+      "auroc1": 0.7117845018558996,
+      "auroc2": 0.7098935852589596,
+      "difference": 0.0018909165969399622,
+      "z_statistic": 0.5325539199868341,
+      "p_value": 0.5943424073332293,
+      "p_holm": 1.0,
+      "sig_holm": false,
+      "p_bh": 0.7703828254071876,
+      "sig_bh": false
+    }
+  ],
+  "mcnemar_tests": [
+    {
+      "model1": "Logistic Regression",
+      "model2": "Xgboost",
+      "accuracy1": 0.6737044145873321,
+      "accuracy2": 0.6506717850287908,
+      "both_correct": 637,
+      "only_1_correct": 65,
+      "only_2_correct": 41,
+      "both_wrong": 299,
+      "statistic": 4.990566037735849,
+      "p_value": 0.025021349991899068,
+      "p_exact": 0.025021349991899068,
+      "p_chi2": 0.025485870689805384,
+      "discordant_b_plus_c": 106,
+      "p_holm": 0.15012809995139442,
+      "sig_holm": false,
+      "p_bh": 0.09890013050635983,
+      "sig_bh": false
+    },
+    {
+      "model1": "Logistic Regression",
+      "model2": "Lightgbm",
+      "accuracy1": 0.6737044145873321,
+      "accuracy2": 0.654510556621881,
+      "both_correct": 645,
+      "only_1_correct": 57,
+      "only_2_correct": 37,
+      "both_wrong": 303,
+      "statistic": 3.8404255319148937,
+      "p_value": 0.049450065253179916,
+      "p_exact": 0.049450065253179916,
+      "p_chi2": 0.050030822148366676,
+      "discordant_b_plus_c": 94,
+      "p_holm": 0.2376244462826591,
+      "sig_holm": false,
+      "p_bh": 0.09890013050635983,
+      "sig_bh": false
+    },
+    {
+      "model1": "Logistic Regression",
+      "model2": "Catboost",
+      "accuracy1": 0.6737044145873321,
+      "accuracy2": 0.6554702495201535,
+      "both_correct": 651,
+      "only_1_correct": 51,
+      "only_2_correct": 32,
+      "both_wrong": 308,
+      "statistic": 3.9036144578313254,
+      "p_value": 0.047524889256531824,
+      "p_exact": 0.047524889256531824,
+      "p_chi2": 0.04818234199339233,
+      "discordant_b_plus_c": 83,
+      "p_holm": 0.2376244462826591,
+      "sig_holm": false,
+      "p_bh": 0.09890013050635983,
+      "sig_bh": false
+    },
+    {
+      "model1": "Xgboost",
+      "model2": "Lightgbm",
+      "accuracy1": 0.6506717850287908,
+      "accuracy2": 0.654510556621881,
+      "both_correct": 664,
+      "only_1_correct": 14,
+      "only_2_correct": 18,
+      "both_wrong": 346,
+      "statistic": 0.28125,
+      "p_value": 0.5966148958541453,
+      "p_exact": 0.5966148958541453,
+      "p_chi2": 0.5958830905651775,
+      "discordant_b_plus_c": 32,
+      "p_holm": 1.0,
+      "sig_holm": false,
+      "p_bh": 0.7375860189185541,
+      "sig_bh": false
+    },
+    {
+      "model1": "Xgboost",
+      "model2": "Catboost",
+      "accuracy1": 0.6506717850287908,
+      "accuracy2": 0.6554702495201535,
+      "both_correct": 649,
+      "only_1_correct": 29,
+      "only_2_correct": 34,
+      "both_wrong": 330,
+      "statistic": 0.25396825396825395,
+      "p_value": 0.6146550157654618,
+      "p_exact": 0.6146550157654618,
+      "p_chi2": 0.6142946646634825,
+      "discordant_b_plus_c": 63,
+      "p_holm": 1.0,
+      "sig_holm": false,
+      "p_bh": 0.7375860189185541,
+      "sig_bh": false
+    },
+    {
+      "model1": "Lightgbm",
+      "model2": "Catboost",
+      "accuracy1": 0.654510556621881,
+      "accuracy2": 0.6554702495201535,
+      "both_correct": 647,
+      "only_1_correct": 35,
+      "only_2_correct": 36,
+      "both_wrong": 324,
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "p_exact": 1.0,
+      "p_chi2": 1.0,
+      "discordant_b_plus_c": 71,
+      "p_holm": 1.0,
+      "sig_holm": false,
+      "p_bh": 1.0,
+      "sig_bh": false
+    }
+  ],
+  "effect_sizes": [
+    {
+      "model1": "Logistic Regression",
+      "model2": "Xgboost",
+      "cohens_d": 0.01877369265463931,
+      "nne": -43.41666666666651,
+      "interpretation": "New model performs worse: 43.4 cases for 1 additional error"
+    },
+    {
+      "model1": "Logistic Regression",
+      "model2": "Lightgbm",
+      "cohens_d": 0.014260546529962193,
+      "nne": -52.09999999999976,
+      "interpretation": "New model performs worse: 52.1 cases for 1 additional error"
+    },
+    {
+      "model1": "Logistic Regression",
+      "model2": "Catboost",
+      "cohens_d": 0.005964939200296635,
+      "nne": -54.842105263157706,
+      "interpretation": "New model performs worse: 54.8 cases for 1 additional error"
+    },
+    {
+      "model1": "Xgboost",
+      "model2": "Lightgbm",
+      "cohens_d": -0.004932289224088755,
+      "nne": 260.5000000000003,
+      "interpretation": "Small practical benefit: 260.5 cases needed for 1 additional correct prediction"
+    },
+    {
+      "model1": "Xgboost",
+      "model2": "Catboost",
+      "cohens_d": -0.012487688925802713,
+      "nne": 208.39999999999904,
+      "interpretation": "Small practical benefit: 208.4 cases needed for 1 additional correct prediction"
+    },
+    {
+      "model1": "Lightgbm",
+      "model2": "Catboost",
+      "cohens_d": -0.0078997058451686,
+      "nne": 1041.9999999999711,
+      "interpretation": "Small practical benefit: 1042.0 cases needed for 1 additional correct prediction"
+    }
+  ],
+  "multiple_comparison_corrections": {
+    "method": "Holm step-down",
+    "fwer": 0.05,
+    "delong": {
+      "num_rejected": 0,
+      "num_tests": 6
+    },
+    "mcnemar": {
+      "num_rejected": 0,
+      "num_tests": 6
+    },
+    "total_num_rejected": 0,
+    "total_num_tests": 12
+  },
+  "interpretation": {
+    "best_auroc": "Logistic Regression",
+    "best_auprc": "Lightgbm",
+    "best_f1": "Logistic Regression",
+    "significant_differences_delong": 0,
+    "significant_differences_mcnemar": 0,
+    "significant_differences_total": 0
+  }
+}

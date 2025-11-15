@@ -1,0 +1,14 @@
+\begin{table}
+\caption{Baseline Model Performance Comparison on COMPAS Test Set}
+\label{tab:baseline_comparison}
+\begin{tabular}{lrrrrr}
+\toprule
+model & auroc & auprc & accuracy & f1 & brier_score \\
+\midrule
+Logistic Regression & 0.7138 & 0.7047 & 0.6737 & 0.6607 & 0.2158 \\
+Xgboost & 0.7124 & 0.7067 & 0.6507 & 0.6160 & 0.2157 \\
+Lightgbm & 0.7118 & 0.7082 & 0.6545 & 0.6273 & 0.2156 \\
+Catboost & 0.7099 & 0.6970 & 0.6555 & 0.6303 & 0.2168 \\
+\bottomrule
+\end{tabular}
+\end{table}

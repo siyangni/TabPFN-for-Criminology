@@ -1,0 +1,35 @@
+{
+  "model": "CatBoost",
+  "train": {
+    "auroc": 0.7427196896709092,
+    "auprc": 0.7486096312879734,
+    "log_loss": 0.5946006441716752,
+    "brier_score": 0.20475150215575538,
+    "accuracy": 0.6808255339572834,
+    "precision": 0.6916802610114192,
+    "recall": 0.625061425061425,
+    "f1": 0.6566855962829117
+  },
+  "test": {
+    "auroc": 0.7098935852589596,
+    "auprc": 0.6969692290273579,
+    "log_loss": 0.6247442820660416,
+    "brier_score": 0.21682917533063611,
+    "accuracy": 0.6554702495201535,
+    "precision": 0.6623376623376623,
+    "recall": 0.6011787819253438,
+    "f1": 0.6302780638516993
+  },
+  "hyperparameters": {
+    "iterations": 351,
+    "depth": 6,
+    "learning_rate": 0.023412256332213673,
+    "l2_leaf_reg": 6.048722461730436,
+    "border_count": 151,
+    "bagging_temperature": 3.25498978833791,
+    "random_strength": 5.7272716398576895,
+    "random_state": 42,
+    "auto_class_weights": "Balanced",
+    "verbose": 0
+  }
+}
